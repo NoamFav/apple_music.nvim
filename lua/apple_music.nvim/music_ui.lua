@@ -85,4 +85,8 @@ local function create_music_ui()
 	) -- Click to play/pause
 end
 
+vim.api.nvim_create_user_command("MusicControl", function()
+	create_music_ui()
+end, { desc = "Open music control UI" })
+
 return { create_music_ui = create_music_ui }
