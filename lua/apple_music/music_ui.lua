@@ -1,4 +1,5 @@
 local music = require("apple_music.music_control")
+local vim = vim
 
 local function create_music_ui()
 	local buf = vim.api.nvim_create_buf(false, true) -- Create scratch buffer
