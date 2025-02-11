@@ -1,4 +1,4 @@
-local music = require("apple_music.nvim.music_control")
+local music = require("apple_music.music_control")
 
 local function create_music_ui()
 	local buf = vim.api.nvim_create_buf(false, true) -- Create scratch buffer
@@ -63,24 +63,18 @@ local function create_music_ui()
 
 	-- Mouse and keybindings
 	local opts = { noremap = true, silent = true, nowait = true }
-	vim.api.nvim_buf_set_keymap(
-		buf,
-		"n",
-		"h",
-		':lua require("apple_music.nvim.music_control").previous_track()<CR>',
-		opts
-	)
-	vim.api.nvim_buf_set_keymap(buf, "n", "l", ':lua require("apple_music.nvim.music_control").next_track()<CR>', opts)
-	vim.api.nvim_buf_set_keymap(buf, "n", "p", ':lua require("apple_music.nvim.music_control").play_pause()<CR>', opts)
-	vim.api.nvim_buf_set_keymap(buf, "n", "-", ':lua require("apple_music.nvim.music_control").volume_down()<CR>', opts)
-	vim.api.nvim_buf_set_keymap(buf, "n", "+", ':lua require("apple_music.nvim.music_control").volume_up()<CR>', opts)
-	vim.api.nvim_buf_set_keymap(buf, "n", "m", ':lua require("apple_music.nvim.music_control").volume_mute()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(buf, "n", "h", ':lua require("apple_music.music_control").previous_track()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(buf, "n", "l", ':lua require("apple_music.music_control").next_track()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(buf, "n", "p", ':lua require("apple_music.music_control").play_pause()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(buf, "n", "-", ':lua require("apple_music.music_control").volume_down()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(buf, "n", "+", ':lua require("apple_music.music_control").volume_up()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(buf, "n", "m", ':lua require("apple_music.music_control").volume_mute()<CR>', opts)
 	vim.api.nvim_buf_set_keymap(buf, "n", "q", ":close<CR>", opts)
 	vim.api.nvim_buf_set_keymap(
 		buf,
 		"n",
 		"<LeftMouse>",
-		':lua require("myplugin.music_control").play_pause()<CR>',
+		':lua require("apple_music.music_control").play_pause()<CR>',
 		opts
 	) -- Click to play/pause
 end
