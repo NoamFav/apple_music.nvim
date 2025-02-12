@@ -5,8 +5,8 @@ local function create_music_ui()
 	local buf = vim.api.nvim_create_buf(false, true) -- Create scratch buffer
 	local width = 50
 	local height = 10
-	local row = math.ceil((vim.o.lines - height) / 2)
-	local col = math.ceil((vim.o.columns - width) / 2)
+	local row = math.ceil((vim.o.lines - height) - 5)
+	local col = math.ceil((vim.o.columns - width) + 5)
 
 	-- Create a floating window
 	local win = vim.api.nvim_open_win(buf, true, {
