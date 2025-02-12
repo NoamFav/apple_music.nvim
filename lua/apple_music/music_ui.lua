@@ -156,9 +156,11 @@ local function focus_music_ui()
 	end
 end
 
--- Replace `vim.api.nvim_set_keymap` with a user command:
+-- Attach the function to the global namespace
+_G.focus_music_ui = focus_music_ui
+
 vim.api.nvim_create_user_command("FocusMusicUI", function()
-	focus_music_ui()
+	_G.focus_music_ui()
 end, {})
 
 return {
