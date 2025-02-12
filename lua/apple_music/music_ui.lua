@@ -106,9 +106,14 @@ function M.create_music_ui()
 
 	-- Initial update and recursive updates every 2 seconds
 	local function recursive_update()
-		if vim.api.nvim_win_is_valid(win) then
-			update_ui()
-			vim.defer_fn(recursive_update, 2000)
+		if win and vim.api.nvim_win_is_valid(win) then
+			local ok, err = pcall(update_ui)
+			if not ok then
+				print("Error updating UI: " .. err)
+			end
+			vim.defer_fn(recursive_update, 1000)
+		else
+			win = nil -- Reset win to avoid further checks
 		end
 	end
 
