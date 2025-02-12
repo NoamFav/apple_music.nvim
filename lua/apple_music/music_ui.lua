@@ -3,8 +3,6 @@ local vim = vim
 local buf = nil
 local win = nil
 
-local previous_win = vim.api.nvim_get_current_win()
-
 local function create_music_ui()
 	if win and vim.api.nvim_win_is_valid(win) then
 		print("Music UI is already open!")
@@ -12,7 +10,7 @@ local function create_music_ui()
 	end
 
 	buf = vim.api.nvim_create_buf(false, true)
-	local width = 52
+	local width = 45
 	local height = 10
 	local row = 1
 	local col = vim.o.columns - width - 2
@@ -148,16 +146,21 @@ local function focus_music_ui()
 		local current_win = vim.api.nvim_get_current_win()
 		if current_win == win then
 			-- Already focused on the music UI, switch back to the previous window
+			local previous_win = vim.fn.win_getid(vim.fn.winnr("#"))
 			if previous_win and vim.api.nvim_win_is_valid(previous_win) then
 				vim.api.nvim_set_current_win(previous_win)
 			end
 		else
 			-- Save the current window as the previous one and focus the music UI
-			previous_win = current_win
 			vim.api.nvim_set_current_win(win)
 		end
 	end
 end
+
+-- Replace `vim.api.nvim_set_keymap` with a user command:
+vim.api.nvim_create_user_command("FocusMusicUI", function()
+	focus_music_ui()
+end, {})
 
 return {
 	create_music_ui = create_music_ui,
