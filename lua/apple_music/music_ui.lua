@@ -1,9 +1,10 @@
+local M = {}
 local vim = vim
 
 local buf = nil
 local win = nil
 
-local function create_music_ui()
+function M.create_music_ui()
 	if win and vim.api.nvim_win_is_valid(win) then
 		print("Music UI is already open!")
 		return
@@ -132,7 +133,7 @@ local function create_music_ui()
 	)
 end
 
-local function close_music_ui()
+function M.close_music_ui()
 	if win and vim.api.nvim_win_is_valid(win) then
 		vim.api.nvim_win_close(win, true)
 		win = nil
@@ -140,7 +141,7 @@ local function close_music_ui()
 	end
 end
 
-local function focus_music_ui()
+function M.focus_music_ui()
 	if win and vim.api.nvim_win_is_valid(win) then
 		local current_win = vim.api.nvim_get_current_win()
 		if current_win == win then
@@ -156,15 +157,8 @@ local function focus_music_ui()
 	end
 end
 
--- Attach the function to the global namespace
-_G.focus_music_ui = focus_music_ui
-
 vim.api.nvim_create_user_command("FocusMusicUI", function()
-	_G.focus_music_ui()
+	M.focus_music_ui()
 end, {})
 
-return {
-	create_music_ui = create_music_ui,
-	close_music_ui = close_music_ui,
-	focus_music_ui = focus_music_ui,
-}
+return M
