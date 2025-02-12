@@ -1,4 +1,5 @@
 local music_ui = require("apple_music.music_ui")
+local vim = vim
 
 vim.api.nvim_create_user_command("MusicControl", function()
 	music_ui.create_music_ui()
@@ -6,56 +7,37 @@ end, { desc = "Open Music Control UI" })
 
 -- Leader key mapping to call MusicControl
 -- Open Music Control UI
-vim.api.nvim_set_keymap("n", "<Leader>mu", ":MusicControl<CR>", { noremap = true, silent = true })
-
--- Play/Pause
-vim.api.nvim_set_keymap(
+vim.keymap.set(
 	"n",
-	"<Leader>mp",
-	":lua require('apple_music.music_control').play_pause()<CR>",
-	{ noremap = true, silent = true }
+	"<Leader>mu",
+	":MusicControl<CR>",
+	{ noremap = true, silent = true, desc = "Open Music Control UI" }
 )
 
--- Next Track
-vim.api.nvim_set_keymap(
-	"n",
-	"<Leader>mn",
-	":lua require('apple_music.music_control').next_track()<CR>",
-	{ noremap = true, silent = true }
-)
+vim.keymap.set("n", "<Leader>mp", function()
+	require("apple_music.music_control").play_pause()
+end, { noremap = true, silent = true, desc = "Play/Pause Music" })
 
--- Previous Track
-vim.api.nvim_set_keymap(
-	"n",
-	"<Leader>mb",
-	":lua require('apple_music.music_control').previous_track()<CR>",
-	{ noremap = true, silent = true }
-)
+vim.keymap.set("n", "<Leader>mn", function()
+	require("apple_music.music_control").next_track()
+end, { noremap = true, silent = true, desc = "Next Track" })
 
--- Volume Up
-vim.api.nvim_set_keymap(
-	"n",
-	"<Leader>m+",
-	":lua require('apple_music.music_control').volume_up()<CR>",
-	{ noremap = true, silent = true }
-)
+vim.keymap.set("n", "<Leader>mb", function()
+	require("apple_music.music_control").previous_track()
+end, { noremap = true, silent = true, desc = "Previous Track" })
 
--- Volume Down
-vim.api.nvim_set_keymap(
-	"n",
-	"<Leader>m-",
-	":lua require('apple_music.music_control').volume_down()<CR>",
-	{ noremap = true, silent = true }
-)
-vim.api.nvim_set_keymap(
-	"n",
-	"<Leader>mq",
-	":lua require('apple_music.music_ui').close_music_ui()<CR>",
-	{ noremap = true, silent = true }
-)
-vim.api.nvim_set_keymap(
-	"n",
-	"<Leader>mf",
-	":lua require('apple_music.music_ui').focus_music_ui()<CR>",
-	{ noremap = true, silent = true }
-)
+vim.keymap.set("n", "<Leader>m+", function()
+	require("apple_music.music_control").volume_up()
+end, { noremap = true, silent = true, desc = "Increase Volume" })
+
+vim.keymap.set("n", "<Leader>m-", function()
+	require("apple_music.music_control").volume_down()
+end, { noremap = true, silent = true, desc = "Decrease Volume" })
+
+vim.keymap.set("n", "<Leader>mq", function()
+	require("apple_music_ui").close_music_ui()
+end, { noremap = true, silent = true, desc = "Close Music Control UI" })
+
+vim.keymap.set("n", "<Leader>mm", function()
+	require("apple_music_ui").focus_music_ui()
+end, { noremap = true, silent = true, desc = "Focus Music UI" })

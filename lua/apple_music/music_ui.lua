@@ -10,7 +10,7 @@ local function create_music_ui()
 	end
 
 	buf = vim.api.nvim_create_buf(false, true)
-	local width = 45
+	local width = 50
 	local height = 10
 	local row = 1
 	local col = vim.o.columns - width - 2
@@ -61,18 +61,18 @@ local function create_music_ui()
 			centered_text("   Current Track:"),
 			centered_text(track:gsub("\n", "") or "No track playing"),
 			centered_text(
-				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 			),
 			centered_text("   Controls:"),
 			centered_text("  h: Previous     p: Play/Pause     l: Next"),
 			centered_text(
-				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 			),
 			centered_text(" 墳  Volume:"),
 			centered_text(slider),
 			centered_text("-: Volume Down   +: Volume Up   󰖁 : Mute"),
 			centered_text(
-				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 			),
 			centered_text("   Press 'q' to close."),
 		}
