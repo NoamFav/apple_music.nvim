@@ -105,7 +105,7 @@ function M.create_music_ui()
 		vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 	end
 
-	-- Initial update and recursive updates every 2 seconds
+	-- Initial update and recursive updates every 1 seconds
 	local function recursive_update()
 		if win and vim.api.nvim_win_is_valid(win) then
 			local ok, err = pcall(update_ui)
@@ -114,7 +114,7 @@ function M.create_music_ui()
 			end
 			vim.defer_fn(recursive_update, 1000)
 		else
-			win = nil -- Reset win to avoid further checks
+			win = nil
 		end
 	end
 
@@ -151,13 +151,11 @@ function M.focus_music_ui()
 	if win and vim.api.nvim_win_is_valid(win) then
 		local current_win = vim.api.nvim_get_current_win()
 		if current_win == win then
-			-- Already focused on the music UI, switch back to the previous window
 			local previous_win = vim.fn.win_getid(vim.fn.winnr("#"))
 			if previous_win and vim.api.nvim_win_is_valid(previous_win) then
 				vim.api.nvim_set_current_win(previous_win)
 			end
 		else
-			-- Save the current window as the previous one and focus the music UI
 			vim.api.nvim_set_current_win(win)
 		end
 	end

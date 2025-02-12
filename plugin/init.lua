@@ -6,7 +6,6 @@ vim.api.nvim_create_user_command("MusicControl", function()
 	music_ui.create_music_ui()
 end, { desc = "Open Music Control UI" })
 
--- Leader key mappings
 vim.keymap.set(
 	"n",
 	"<Leader>mu",
