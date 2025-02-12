@@ -28,7 +28,8 @@ function M.create_music_ui()
 	})
 
 	local function centered_text(text)
-		local padding = math.floor((width - #text) / 2)
+		local text_width = vim.api.nvim_strwidth(text)
+		local padding = math.floor((width - text_width) / 2)
 		if padding > 0 then
 			return string.rep(" ", padding) .. text
 		else
@@ -62,18 +63,18 @@ function M.create_music_ui()
 			centered_text("   Current Track:"),
 			centered_text(track:gsub("\n", "") or "No track playing"),
 			centered_text(
-				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ "
+				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ "
 			),
 			centered_text("   Controls:"),
 			centered_text("  h: Previous     p: Play/Pause     l: Next"),
 			centered_text(
-				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ "
+				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ "
 			),
 			centered_text(" 墳  Volume:"),
 			centered_text(slider),
 			centered_text("-: Volume Down   +: Volume Up   󰖁 : Mute"),
 			centered_text(
-				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ "
+				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ "
 			),
 			centered_text("   Press 'q' to close."),
 		}
