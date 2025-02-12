@@ -10,7 +10,7 @@ local function create_music_ui()
 	end
 
 	buf = vim.api.nvim_create_buf(false, true)
-	local width = 50
+	local width = 60
 	local height = 10
 	local row = 1
 	local col = vim.o.columns - width - 2
@@ -25,11 +25,55 @@ local function create_music_ui()
 		border = "rounded",
 		focusable = false,
 	})
+
+	local function centered_text(text)
+		local padding = math.floor((width - #text) / 2)
+		if padding > 0 then
+			return string.rep(" ", padding) .. text
+		else
+			return text
+		end
+	end
+
 	local function create_volume_slider(volume)
 		local filled = math.floor(volume / 10)
 		local empty = 10 - filled
 		return string.rep("█", filled) .. string.rep("░", empty)
 	end
+
+	local function get_volume_icon(volume)
+		if volume == 0 then
+			return "󰖁" -- Mute icon
+		elseif volume <= 30 then
+			return "奄" -- Low volume
+		elseif volume <= 70 then
+			return "奔" -- Medium volume
+		else
+			return "墳" -- High volume
+		end
+	end
+
+	local function create_ui(track, volume)
+		local volume_icon = get_volume_icon(tonumber(volume))
+		local slider = " " .. volume_icon .. " [" .. create_volume_slider(tonumber(volume)) .. "] " .. "墳"
+
+		local lines = {
+			centered_text("   Current Track:"),
+			centered_text(track:gsub("\n", "") or "No track playing"),
+			" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+			centered_text("   Controls:"),
+			centered_text("  h: Previous     p: Play/Pause     l: Next"),
+			" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+			centered_text(" 墳  Volume:"),
+			centered_text(slider),
+			centered_text("-: Volume Down   +: Volume Up   󰖁 : Mute"),
+			" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+			centered_text("   Press 'q' to close."),
+		}
+
+		return lines
+	end
+
 	local function update_ui()
 		if not vim.api.nvim_win_is_valid(win) then
 			return
@@ -49,22 +93,7 @@ local function create_music_ui()
 			vol_handle:close()
 		end
 
-		local slider = " 奔 [" .. create_volume_slider(tonumber(volume)) .. "] 墳"
-
-		local lines = {
-			"   Current Track:",
-			"     " .. (track:gsub("\n", "") or "No track playing"),
-			" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-			" ﱘ  Controls:",
-			"       h: Previous     p: Play/Pause     l: Next",
-			" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-			" 墳  Volume:",
-			"     " .. slider,
-			"     -: Volume Down   +: Volume Up   ﱝ : Mute",
-			" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-			"   Press 'q' to close.",
-		}
-
+		local lines = create_ui(track, volume)
 		vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 	end
 
