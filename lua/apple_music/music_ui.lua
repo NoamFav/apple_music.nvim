@@ -3,6 +3,8 @@ local vim = vim
 local buf = nil
 local win = nil
 
+local previous_win = vim.api.nvim_get_current_win()
+
 local function create_music_ui()
 	if win and vim.api.nvim_win_is_valid(win) then
 		print("Music UI is already open!")
@@ -10,7 +12,7 @@ local function create_music_ui()
 	end
 
 	buf = vim.api.nvim_create_buf(false, true)
-	local width = 60
+	local width = 52
 	local height = 10
 	local row = 1
 	local col = vim.o.columns - width - 2
@@ -23,7 +25,7 @@ local function create_music_ui()
 		col = col,
 		style = "minimal",
 		border = "rounded",
-		focusable = false,
+		focusable = true,
 	})
 
 	local function centered_text(text)
@@ -60,14 +62,20 @@ local function create_music_ui()
 		local lines = {
 			centered_text("   Current Track:"),
 			centered_text(track:gsub("\n", "") or "No track playing"),
-			" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+			centered_text(
+				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+			),
 			centered_text("   Controls:"),
 			centered_text("  h: Previous     p: Play/Pause     l: Next"),
-			" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+			centered_text(
+				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+			),
 			centered_text(" 墳  Volume:"),
 			centered_text(slider),
 			centered_text("-: Volume Down   +: Volume Up   󰖁 : Mute"),
-			" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+			centered_text(
+				" ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+			),
 			centered_text("   Press 'q' to close."),
 		}
 
@@ -117,6 +125,14 @@ local function create_music_ui()
 	vim.api.nvim_buf_set_keymap(buf, "n", "+", ':lua require("apple_music.music_control").volume_up()<CR>', opts)
 	vim.api.nvim_buf_set_keymap(buf, "n", "m", ':lua require("apple_music.music_control").volume_mute()<CR>', opts)
 	vim.api.nvim_buf_set_keymap(buf, "n", "q", ":lua require('apple_music_ui').close_music_ui()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(
+		buf,
+		"n",
+		"<LeftMouse>",
+		':lua require("apple_music.music_control").play_pause()<CR>',
+		opts
+	)
+	vim.api.nvim_set_keymap("n", "<Leader>fm", ":lua focus_music_ui()<CR>", opts)
 end
 
 local function close_music_ui()
@@ -127,7 +143,24 @@ local function close_music_ui()
 	end
 end
 
+local function focus_music_ui()
+	if win and vim.api.nvim_win_is_valid(win) then
+		local current_win = vim.api.nvim_get_current_win()
+		if current_win == win then
+			-- Already focused on the music UI, switch back to the previous window
+			if previous_win and vim.api.nvim_win_is_valid(previous_win) then
+				vim.api.nvim_set_current_win(previous_win)
+			end
+		else
+			-- Save the current window as the previous one and focus the music UI
+			previous_win = current_win
+			vim.api.nvim_set_current_win(win)
+		end
+	end
+end
+
 return {
 	create_music_ui = create_music_ui,
 	close_music_ui = close_music_ui,
+	focus_music_ui = focus_music_ui,
 }
