@@ -130,7 +130,6 @@ local function create_music_ui()
 		':lua require("apple_music.music_control").play_pause()<CR>',
 		opts
 	)
-	vim.api.nvim_set_keymap("n", "<Leader>fm", ":lua focus_music_ui()<CR>", opts)
 end
 
 local function close_music_ui()
