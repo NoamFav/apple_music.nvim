@@ -24,7 +24,7 @@ function M.create_music_ui()
 		col = col,
 		style = "minimal",
 		border = "rounded",
-		focusable = true,
+		focusable = true, -- Trim whitespace,
 	})
 
 	local function centered_text(text)

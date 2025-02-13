@@ -19,6 +19,7 @@ A Neovim plugin for controlling **Apple Music** directly from Neovim. This plugi
 
 - **Neovim 0.7+**
 - **macOS** (since it relies on `osascript` to control Apple Music)
+- **Telescope.nvim** (for the playlist picker)
 
 ### Using [Lazy.nvim](https://github.com/folke/lazy.nvim)
 
@@ -34,14 +35,19 @@ Add the repository to your `lazy.nvim` configuration:
 
 ```lua
 {
-  "NoamFav/apple_music.nvim"
+  "NoamFav/apple_music.nvim",
+  dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
 }
 ```
 
 ### Packer.nvim
 
 ```lua
-use "NoamFav/apple_music.nvim"
+use {
+  "NoamFav/apple_music.nvim",
+  requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+
+}
 ```
 
 ### Vim-Plug
@@ -58,6 +64,7 @@ Plug 'NoamFav/apple_music.nvim'
 
 - `:MusicControl`: Opens the floating music control UI.
 - `:FocusMusicUI`: Focuses on the floating window (or returns focus to the previous window).
+- `:MusicPickPlaylist`: Opens a Telescope picker to select a playlist to play.
 
 ### Key Mappings
 
@@ -71,6 +78,7 @@ The plugin includes the following key mappings by default:
 - `<Leader>m-`: Decrease Volume
 - `<Leader>mq`: Close Music Control UI
 - `<Leader>mm`: Focus Music UI
+- `<Leader>pp`: Pick Playlist (with optional shuffle)
 
 ---
 
@@ -81,6 +89,7 @@ The plugin includes the following key mappings by default:
 - **`init.lua`**: Entry point for the plugin, initializes commands and key mappings.
 - **`music_control.lua`**: Contains functions for controlling Apple Music (play, pause, next, previous, volume control).
 - **`music_ui.lua`**: Defines the floating UI for displaying track information and handling updates.
+- **`playlist_picker.lua`**: Contains functions for picking a playlist using Telescope.
 
 ### Recursive UI Updates
 
