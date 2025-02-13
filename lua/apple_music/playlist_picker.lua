@@ -1,4 +1,6 @@
-local telescope = require("telescope.builtin")
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+local conf = require("telescope.config").values
 
 local M = {}
 
@@ -19,13 +21,13 @@ end
 
 function M.pick_playlist_shuffle()
 	local playlists = M.get_playlists()
-	telescope.pickers
+	pickers
 		.new({}, {
 			prompt_title = "Select Playlist to Shuffle",
-			finder = telescope.finders.new_table({
+			finder = finders.new_table({
 				results = playlists,
 			}),
-			sorter = telescope.config.generic_sorter({}),
+			sorter = conf.generic_sorter({}),
 			attach_mappings = function(_, map)
 				map("i", "<CR>", function(prompt_bufnr)
 					local selection = require("telescope.actions.state").get_selected_entry(prompt_bufnr)
@@ -48,13 +50,13 @@ end
 
 function M.pick_playlist()
 	local playlists = M.get_playlists()
-	telescope.pickers
+	pickers
 		.new({}, {
 			prompt_title = "Select Playlist",
-			finder = telescope.finders.new_table({
+			finder = finders.new_table({
 				results = playlists,
 			}),
-			sorter = telescope.config.generic_sorter({}),
+			sorter = conf.generic_sorter({}),
 			attach_mappings = function(_, map)
 				map("i", "<CR>", function(prompt_bufnr)
 					local selection = require("telescope.actions.state").get_selected_entry(prompt_bufnr)
