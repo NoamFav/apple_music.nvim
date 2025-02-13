@@ -6,16 +6,20 @@ local M = {}
 
 function M.get_playlists()
 	local handle = io.popen("osascript -e 'tell application \"Music\" to get name of every playlist'")
-	if handle == nil then
+	if not handle then
 		print("🎵 No playlists found")
-		return
+		return {}
 	end
+
 	local result = handle:read("*a")
 	handle:close()
+
 	local playlists = {}
-	for playlist in result:gmatch("[^\r\n]+") do
+	for playlist in result:gmatch("([^,]+)") do
+		playlist = playlist:gsub("^%s+", ""):gsub("%s+$", "")
 		table.insert(playlists, playlist)
 	end
+
 	return playlists
 end
 
