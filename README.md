@@ -34,20 +34,20 @@ Add the repository to your `lazy.nvim` configuration:
 
 ```lua
 {
-  "apple_music.nvim"
+  "NoamFav/apple_music.nvim"
 }
 ```
 
 ### Packer.nvim
 
 ```lua
-use "apple_music.nvim"
+use "NoamFav/apple_music.nvim"
 ```
 
 ### Vim-Plug
 
 ```vim
-Plug 'apple_music.nvim'
+Plug 'NoamFav/apple_music.nvim'
 ```
 
 ---
